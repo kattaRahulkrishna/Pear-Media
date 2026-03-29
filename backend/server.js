@@ -36,8 +36,8 @@ app.post('/api/text/enhance', async (req, res) => {
     const { prompt } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
-    // Use Mistral-7B-Instruct for text enhancement
-    const model = 'mistralai/Mistral-7B-Instruct-v0.2';
+    // Use Zephyr for text enhancement (native HF free tier)
+    const model = 'HuggingFaceH4/zephyr-7b-beta';
     const systemPrompt = "You are a prompt engineering expert. Enhance the following user prompt for an image generation AI. Add descriptive keywords for style, lighting, and composition to make it visually stunning. Return ONLY the enhanced prompt string without any conversational filler or quotes.";
     
     // Format input for Mistral instruct
@@ -87,7 +87,7 @@ app.post('/api/image/analyze', upload.single('image'), async (req, res) => {
     const fileData = fs.readFileSync(imagePath);
     
     // Use BLIP for image captioning
-    const model = 'Salesforce/blip-image-captioning-large';
+    const model = 'Salesforce/blip-image-captioning-base';
     const response = await hfRequest(model, fileData, 'application/octet-stream');
     
     const caption = response.data[0]?.generated_text || 'No caption generated';
