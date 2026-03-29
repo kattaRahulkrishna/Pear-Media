@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: pear-media-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x
+      - key: HUGGINGFACE_API_KEY
+        sync: false
