@@ -50,8 +50,9 @@ app.post('/api/text/enhance', async (req, res) => {
     
     res.json({ enhancedPrompt: enhanced });
   } catch (error) {
-    console.error('Enhance error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to enhance prompt.' });
+    const hfError = error.response?.data?.error || error.message;
+    console.error('Enhance error:', hfError);
+    res.status(500).json({ error: `Hugging Face Error: ${hfError}` });
   }
 });
 
@@ -69,8 +70,12 @@ app.post('/api/text/generate-image', async (req, res) => {
     
     res.json({ image: imageSrc });
   } catch (error) {
-    console.error('Generate error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to generate image.' });
+    let hfError = error.message;
+    if (error.response?.data) {
+       hfError = error.response.data.toString();
+    }
+    console.error('Generate error:', hfError);
+    res.status(500).json({ error: `Hugging Face Error: ${hfError}` });
   }
 });
 
@@ -92,8 +97,9 @@ app.post('/api/image/analyze', upload.single('image'), async (req, res) => {
     
     res.json({ caption });
   } catch (error) {
-    console.error('Analyze error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to analyze image.' });
+    const hfError = error.response?.data?.error || error.message;
+    console.error('Analyze error:', hfError);
+    res.status(500).json({ error: `Hugging Face Error: ${hfError}` });
   }
 });
 
@@ -115,8 +121,12 @@ app.post('/api/image/variations', async (req, res) => {
     
     res.json({ image: imageSrc });
   } catch (error) {
-    console.error('Variation error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to generate variation.' });
+    let hfError = error.message;
+    if (error.response?.data) {
+       hfError = error.response.data.toString();
+    }
+    console.error('Variation error:', hfError);
+    res.status(500).json({ error: `Hugging Face Error: ${hfError}` });
   }
 });
 
