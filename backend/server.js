@@ -22,7 +22,7 @@ const hfRequest = async (model, data, contentType = 'application/json', response
   const token = process.env.HUGGINGFACE_API_KEY;
   if (!token) throw new Error("Hugging Face API key not configured");
   
-  return axios.post(`https://api-inference.huggingface.co/models/${model}`, data, {
+  return axios.post(`https://router.huggingface.co/hf-inference/models/${model}`, data, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': contentType
